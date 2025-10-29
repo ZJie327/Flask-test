@@ -24,9 +24,9 @@ app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')  # 你的QQ邮箱
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')  # 你的授权码
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')  # 发件人
 # app.config['SECRET_KEY'] = 'your-secret-key-change-in-production'
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
+app.config['SQLALCHEMY_DATABASE_URI'] =os.environ.get('DATABASE_URL','sqlite:///users.db')
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
 
 # # 邮箱配置
 # app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -100,7 +100,7 @@ def send_verification_email(user_email, token):
             <h2 style="color: #333;">欢迎来到 My Blog！</h2>
             <p>请点击下面的按钮完成邮箱验证：</p >
             <div style="text-align: center; margin: 30px 0;">
-                <a href=" " 
+                <a href="{verification_url}" 
                    style="background-color: #007bff; color: white; padding: 12px 24px; 
                           text-decoration: none; border-radius: 4px; display: inline-block;">
                    验证我的邮箱
@@ -251,23 +251,23 @@ def register():
         new_user = User(username=username, email=email)
         new_user.set_password(password)
         
-        # token = generate_token(email)
-        # new_user.email_verification_token = token
-        new_user.is_verified = True
+        token = generate_token(email)
+        new_user.email_verification_token = token
+        # new_user.is_verified = True
         try:
             db.session.add(new_user)
             db.session.commit()
             session['user_id'] = new_user.id
             session['username'] = new_user.username
             flash('注册成功！欢迎使用 My Blog。', 'success')
-            return redirect(url_for('index'))  # 直接跳转到首页
-            # if send_verification_email(email, token):
-            #     session['temp_user_id'] = new_user.id
-            #     flash('注册成功！请检查您的邮箱并完成验证。', 'success')
-            #     return redirect(url_for('resend_verification'))
-            # else:
-            #     flash('注册成功，但验证邮件发送失败，请联系管理员。', 'warning')
-            #     return redirect(url_for('resend_verification'))
+            # return redirect(url_for('index'))  # 直接跳转到首页
+            if send_verification_email(email, token):
+                session['temp_user_id'] = new_user.id
+                flash('注册成功！请检查您的邮箱并完成验证。', 'success')
+                return redirect(url_for('resend_verification'))
+            else:
+                flash('注册成功，但验证邮件发送失败，请联系管理员。', 'warning')
+                return redirect(url_for('resend_verification'))
                 
         except Exception as e:
             db.session.rollback()
