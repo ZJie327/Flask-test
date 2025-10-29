@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}重新发送验证邮件 - My Blog{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>重新发送验证邮件</h1>
+            <p>输入您的邮箱地址重新接收验证邮件</p >
+        </div>
+
+        <form method="POST" class="auth-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <div class="form-group">
+                <label for="email">邮箱地址</label>
+                <input type="email" id="email" name="email" class="form-input" 
+                       value="{{ email if email else '' }}" placeholder="请输入注册时使用的邮箱地址" required>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">重新发送验证邮件</button>
+            </div>
+        </form>
+
+        <div class="verification-help">
+            <h4>遇到问题？</h4>
+            <ul>
+                <li>确保输入的邮箱与注册时一致</li>
+                <li>检查垃圾邮件文件夹</li>
+                <li>等待几分钟后再试</li>
+                <li><a href="{{ url_for('register') }}">重新注册账户</a ></li>
+                <li><a href="{{ url_for('login') }}">返回登录页面</a ></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

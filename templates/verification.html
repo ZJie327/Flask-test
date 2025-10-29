@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}邮箱验证 - My Blog{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>验证您的邮箱</h1>
+            <p>请查看您的邮箱并完成验证</p >
+        </div>
+
+        <div class="verification-content">
+            <div class="verification-icon">📧</div>
+            
+            <div class="verification-text">
+                <h3>验证邮件已发送</h3>
+                <p>我们已向 <strong>{{ email }}</strong> 发送了一封验证邮件。</p >
+                <p>请检查您的收件箱（包括垃圾邮件文件夹），并点击邮件中的验证链接来完成账户验证。</p >
+            </div>
+
+            <div class="verification-actions">
+                <a href="{{ url_for('resend_verification') }}" class="btn btn-secondary">重新发送验证邮件</a >
+                <a href="{{ url_for('login') }}" class="btn btn-primary">返回登录</a >
+            </div>
+
+            <div class="verification-help">
+                <h4>没有收到邮件？</h4>
+                <ul>
+                    <li>检查垃圾邮件文件夹</li>
+                    <li>确保邮箱地址正确</li>
+                    <li>等待几分钟后重试</li>
+                    <li><a href="{{ url_for('register') }}">重新注册</a ></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

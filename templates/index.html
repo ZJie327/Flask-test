@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}首页 - My Blog{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>欢迎来到 My Blog</h1>
+    <p class="subtitle">这是您的个人博客空间</p >
+</div>
+
+<div class="content-section">
+    <div class="welcome-card">
+        <h2>你好, {{ username }}!</h2>
+        <p>恭喜你成功登录到 My Blog。这里是你展示想法、分享知识和记录生活的地方。</p >
+        
+        <div class="feature-list">
+            <div class="feature-item">
+                <h3>📝 写博客</h3>
+                <p>创建和发布你的博客文章</p >
+            </div>
+            <div class="feature-item">
+                <h3>🔒 安全</h3>
+                <p>你的账户受到密码和邮箱验证的保护</p >
+            </div>
+            <div class="feature-item">
+                <h3>📱 响应式</h3>
+                <p>在任何设备上都能完美显示</p >
+            </div>
+        </div>
+
+        <div class="action-buttons">
+            <a href=" " class="btn btn-primary">开始写博客</a >
+            <a href="{{ url_for('logout') }}" class="btn btn-secondary">退出登录</a >
+        </div>
+    </div>
+</div>
+{% endblock %}

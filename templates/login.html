@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}登录 - My Blog{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>登录账户</h1>
+            <p>登录到您的 My Blog 账户</p >
+        </div>
+
+        <form method="POST" class="auth-form">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" id="username" name="username" class="form-input" placeholder="请输入用户名" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" name="password" class="form-input" placeholder="请输入密码" required>
+            </div>
+
+            <div class="form-group checkbox-group">
+                <input type="checkbox" id="remember_me" name="remember_me">
+                <label for="remember_me">记住我</label>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">登录</button>
+            </div>
+
+            <div class="auth-links">
+                <p>还没有账户？ <a href="{{ url_for('register') }}">立即注册</a ></p >
+                <p><a href="{{ url_for('resend_verification') }}">需要重新发送验证邮件？</a ></p >
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

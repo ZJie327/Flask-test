@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}My Blog{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <a href="{{ url_for('index') }}">My Blog</a >
+            </div>
+            <div class="nav-links">
+                {% if session.user_id %}
+                    <span class="welcome-text">欢迎, {{ session.username }}!</span>
+                    <a href="{{ url_for('logout') }}" class="nav-link">退出登录</a >
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="nav-link">登录</a >
+                    <a href="{{ url_for('register') }}" class="nav-link">注册</a >
+                {% endif %}
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <!-- Flash消息 -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash flash-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <!-- 主要内容 -->
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
