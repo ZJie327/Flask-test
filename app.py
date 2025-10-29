@@ -24,7 +24,15 @@ app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')  # 你的QQ邮箱
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')  # 你的授权码
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME')  # 发件人
 # app.config['SECRET_KEY'] = 'your-secret-key-change-in-production'
-app.config['SQLALCHEMY_DATABASE_URI'] =os.environ.get('DATABASE_URL','sqlite:///users.db')
+# app.config['SQLALCHEMY_DATABASE_URI'] =os.environ.get('DATABASE_URL','sqlite:///users.db')
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
+database_url = os.environ.get('DATABASE_URL', 'sqlite:///users.db')
+# 修复 PostgreSQL 连接字符串格式
+if database_url and database_url.startswith('postgres://'):
+    database_url = database_url.replace('postgres://', 'postgresql://', 1)
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
 
@@ -342,4 +350,4 @@ def logout():
     return redirect(url_for('login'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',port=5000,debug=False)
