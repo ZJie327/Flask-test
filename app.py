@@ -81,7 +81,7 @@ def send_verification_email(user_email, token):
         <h2 style="color: #333;">欢迎来到 My Blog！</h2>
         <p>请点击下面的按钮完成邮箱验证：</p >
         <div style="text-align: center; margin: 30px 0;">
-            <a href=" " 
+            <a href="{verification_url}" 
                style="background-color: #007bff; color: white; padding: 12px 24px; 
                       text-decoration: none; border-radius: 4px; display: inline-block;">
                验证我的邮箱
